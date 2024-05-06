@@ -2,15 +2,11 @@ package com.utilities.todolist.controllers;
 
 import com.utilities.todolist.mappers.TaskMapper;
 import com.utilities.todolist.models.Task;
-import com.utilities.todolist.repository.TaskRepository;
 import com.utilities.todolist.services.TaskService;
 import com.utilities.todolist.vos.TaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/tasks")
 public class TaskController {
 
-  @Autowired
-    private TaskService service;
+  @Autowired private TaskService service;
 
   private final TaskMapper mapper = new TaskMapper();
 
   @GetMapping
   @Operation(summary = "Lista todas as tarefas da lista")
   public ResponseEntity<List<Task>> getAll() {
-   return service.getAll();
+    return service.getAll();
   }
 
   @PostMapping
@@ -46,21 +41,21 @@ public class TaskController {
     return service.update(id, task);
   }
 
-    @PutMapping(value = "/{id}/complete")
-    @Operation(summary = "Completa uma tarefa")
-    public ResponseEntity<Task> complete(@PathVariable Long id) {
-        return service.complete(id);
-    }
+  @PutMapping(value = "/{id}/complete")
+  @Operation(summary = "Completa uma tarefa")
+  public ResponseEntity<Task> complete(@PathVariable Long id) {
+    return service.complete(id);
+  }
 
-    @PutMapping(value = "/{id}/undo")
-    @Operation(summary = "Descompletar uma tarefa")
-    public ResponseEntity<Task> undo(@PathVariable Long id) {
-       return service.undo(id);
-    }
+  @PutMapping(value = "/{id}/undo")
+  @Operation(summary = "Descompletar uma tarefa")
+  public ResponseEntity<Task> undo(@PathVariable Long id) {
+    return service.undo(id);
+  }
 
-    @DeleteMapping(value = "/{id}")
-    @Operation(summary = "Apagar uma tarefa")
-    public ResponseEntity<Task> delete(@PathVariable Long id) {
-        return service.delete(id);
-    }
+  @DeleteMapping(value = "/{id}")
+  @Operation(summary = "Apagar uma tarefa")
+  public ResponseEntity<Task> delete(@PathVariable Long id) {
+    return service.delete(id);
+  }
 }

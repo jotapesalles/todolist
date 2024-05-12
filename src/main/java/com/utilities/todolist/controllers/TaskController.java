@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/tasks")
+@RestController
+@RequestMapping("/tasks")
 public class TaskController {
 
   @Autowired private TaskService service;
@@ -55,7 +57,7 @@ public class TaskController {
 
   @DeleteMapping(value = "/{id}")
   @Operation(summary = "Apagar uma tarefa")
-  public ResponseEntity<Task> delete(@PathVariable Long id) {
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
     return service.delete(id);
   }
 }

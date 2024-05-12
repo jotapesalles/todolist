@@ -30,8 +30,7 @@ public class TaskService {
 
   public ResponseEntity<Task> create(Task task) {
     try {
-      Task returnedTask = taskRepository.save(task);
-      return new ResponseEntity<>(returnedTask, HttpStatus.CREATED);
+      return new ResponseEntity<>(taskRepository.save(task), HttpStatus.CREATED);
     } catch (Exception ex) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -43,8 +42,7 @@ public class TaskService {
       if (taskToUpdateOpt.isPresent()) {
         Task taskToUpdate = taskToUpdateOpt.get();
         taskToUpdate.setName(task.getName());
-        taskRepository.save(taskToUpdate);
-        return new ResponseEntity<>(taskToUpdate, HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(taskRepository.save(taskToUpdate));
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -68,8 +66,7 @@ public class TaskService {
             task.setStatus(Status.EXPECTED);
           } else task.setStatus(Status.CONCLUDED);
         }
-        taskRepository.save(task);
-        return new ResponseEntity<>(task, HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(taskRepository.save(task));
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -84,8 +81,7 @@ public class TaskService {
       if (taskToUpdateOpt.isPresent()) {
         Task taskToUpdate = taskToUpdateOpt.get();
         taskToUpdate.setCompleted(false);
-        taskRepository.save(taskToUpdate);
-        return new ResponseEntity<>(taskToUpdate, HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(taskRepository.save(taskToUpdate));
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -94,7 +90,7 @@ public class TaskService {
     }
   }
 
-  public ResponseEntity<Task> delete(Long id) {
+  public ResponseEntity<Void> delete(Long id) {
     try {
       taskRepository.deleteById(id);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);

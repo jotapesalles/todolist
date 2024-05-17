@@ -30,7 +30,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public class TaskControllerIntegrationTest {
 
-  private static final String URL = "/tasks";
+  private static final String URL = "/api/tasks";
 
   @BeforeEach
   public void setup() {

@@ -15,7 +15,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "Todos os detalhes sobre uma tarefa. ")
 public class TaskRequest {
 

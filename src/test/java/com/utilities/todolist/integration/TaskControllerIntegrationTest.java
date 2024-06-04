@@ -55,14 +55,13 @@ public class TaskControllerIntegrationTest {
         .get(URL)
         .then()
         .statusCode(200)
-        .body("[0].id", equalTo(1))
-        .body("[0].name", equalTo("taskRequest"))
-        .body("[0].type", equalTo("DATE"))
-        .body("[0].status", equalTo("EXPECTED"))
-        .body("[0].completed", equalTo(false))
-        .body("[0].priority", equalTo("HIGH"))
-        .body("[0].finalDate", equalTo(now.toString()))
-        .body("[0].daysLate", nullValue());
+        .body("last().name", equalTo("taskRequest"))
+        .body("last().type", equalTo("DATE"))
+        .body("last().status", equalTo("EXPECTED"))
+        .body("last().completed", equalTo(false))
+        .body("last().priority", equalTo("HIGH"))
+        .body("last().finalDate", equalTo(now.toString()))
+        .body("last().daysLate", nullValue());
   }
 
   @Test

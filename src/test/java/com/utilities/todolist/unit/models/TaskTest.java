@@ -24,8 +24,8 @@ class TaskTest {
     boolean completed = false;
     TaskType type = TaskType.DEADLINE;
     Priority priority = Priority.HIGH;
-    LocalDate initialDate = LocalDate.now();
-    LocalDate finalDate = LocalDate.now().plusDays(2);
+    LocalDate initialDate = LocalDate.parse("2024-05-30");
+    LocalDate finalDate = initialDate.plusDays(2);
     Status status = Status.CONCLUDED;
     Integer daysLate = 2;
 

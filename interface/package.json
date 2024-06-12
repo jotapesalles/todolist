@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.2"
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "uuid": "^10.0.0"
   }
 }

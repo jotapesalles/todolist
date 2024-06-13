@@ -39,7 +39,7 @@ h1 {
 .todo-input {
     outline: none;
     background: none;
-    border: 1px solid #8758ff;
+    border: 1px solid #ffffff;
     padding: 0.5rem 1rem;
     margin-top: 1rem;
     margin-bottom: 2rem;
@@ -76,7 +76,7 @@ h1 {
 
 .incompleted {
     color: #fff;
-    text-decoration: line-through;
+    text-decoration: none;
     cursor: pointer;
 }
 

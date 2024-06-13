@@ -1,27 +1,39 @@
 import React, {useEffect, useState} from 'react'
 import {TodoList} from "./TodoList";
 import {TodoForm} from "./TodoForm";
-import {v4 as uuidv4} from "uuid";
+import axios from 'axios';
 
+const url = 'https://todolist-z3oh.onrender.com/api/tasks';
 export const TodoWrapperService = () => {
-    const [todos, setTodos] = useState([])
+    const [todos, setTodos] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
-        const savedTodos = JSON.parse(localStorage.getItem('todos')) || [];
-        setTodos(savedTodos);
+        axios.get(url)
+            .then((response) => setTodos(response.data))
+            .finally(() => setIsLoading(false));
     }, []);
-    const addTodo = (todo) => {
+
+    const addTodo = (task) => {
         setTodos([
             ...todos,
-            {id: uuidv4(), description: todo, completed: false},
+            task,
         ]);
     }
+
     return (
-        <div className='TodoWrapper'>
+        <div className="TodoWrapper">
             <h1>Lista de Tarefas! (Service)</h1>
-            <TodoForm addTodo={addTodo}/>
-            {todos.map((todo, index) => (
-                <TodoList task={todo} key={index}/>
-            ))}
+            {isLoading ? <p>Carregando...</p> : null}
+            {todos.length > 0 ? (
+                <>
+                    <TodoForm addTodo={addTodo}/>
+                    {todos.map((todo, index) => (
+                        <TodoList task={todo} key={index}/>
+                    ))}
+                </>
+            ) : (<p>Sua lista de tarefas está vazia!</p>)
+            }
         </div>
-    )
-}
+    );
+};

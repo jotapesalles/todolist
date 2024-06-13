@@ -19,8 +19,7 @@ export const TodoForm = ({addTodo}) => {
             <input
                 type="text"
                 value={value}
-                onChange={handleChange} className="todo-input" placeholder='Descrição da
-Tarefa'/>
+                onChange={handleChange} className="todo-input" placeholder='Descrição da Tarefa'/>
             <button type="submit" className='todo-btn'>Adicionar Tarefa</button>
         </form>
     )

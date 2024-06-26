@@ -31,11 +31,13 @@ import org.springframework.test.context.ActiveProfiles;
 public class TaskControllerIntegrationTest {
 
   private static final String URL = "/api/tasks";
+  private static Integer lastTaskId;
 
   @BeforeEach
   public void setup() {
     RestAssured.baseURI = "http://localhost:8080";
     RestAssured.port = 8080;
+    lastTaskId = getLastTaskId();
   }
 
   @Test
@@ -49,7 +51,15 @@ public class TaskControllerIntegrationTest {
     taskRequest.setPriority(Priority.HIGH);
     taskRequest.setFinalDate(LocalDate.now());
 
-    given().contentType(JSON).body(taskRequest).post(URL).then().statusCode(201);
+    int id =
+        given()
+            .contentType(JSON)
+            .body(taskRequest)
+            .post(URL)
+            .then()
+            .statusCode(201)
+            .extract()
+            .path("id");
 
     given()
         .get(URL)
@@ -62,42 +72,42 @@ public class TaskControllerIntegrationTest {
         .body("last().priority", equalTo("HIGH"))
         .body("last().finalDate", equalTo(now.toString()))
         .body("last().daysLate", nullValue());
+
+    deleteById(id);
   }
 
   @Test
   public void updateTaskWithSuccess() {
     Task taskToUpdate = new Task();
-    taskToUpdate.setId(1L);
     taskToUpdate.setName("Passear com o cachorro");
-    taskToUpdate.setCompleted(false);
 
     given()
         .contentType("application/json")
         .body(taskToUpdate)
-        .put(URL + "/1")
+        .put(URL + "/" + lastTaskId)
         .then()
         .statusCode(200)
-        .body("id", equalTo(1))
+        .body("id", equalTo(lastTaskId))
         .body("name", equalTo("Passear com o cachorro"));
   }
 
   @Test
   public void completeTaskWithSuccess() {
     given()
-        .put(URL + "/1/complete")
+        .put(URL + "/" + lastTaskId + "/complete")
         .then()
         .statusCode(200)
-        .body("id", equalTo(1))
+        .body("id", equalTo(lastTaskId))
         .body("completed", equalTo(true));
   }
 
   @Test
   public void undoTaskWithSuccess() {
     given()
-        .put(URL + "/1/undo")
+        .put(URL + "/" + lastTaskId + "/undo")
         .then()
         .statusCode(200)
-        .body("id", equalTo(1))
+        .body("id", equalTo(lastTaskId))
         .body("completed", equalTo(false));
   }
 
@@ -109,8 +119,27 @@ public class TaskControllerIntegrationTest {
     taskRequest.setPriority(Priority.LOW);
     taskRequest.setFinalDate(LocalDate.now());
 
-    given().contentType(JSON).body(taskRequest).post(URL).then().statusCode(201);
+    int id =
+        given()
+            .contentType(JSON)
+            .body(taskRequest)
+            .post(URL)
+            .then()
+            .statusCode(201)
+            .extract()
+            .path("id");
 
-    given().delete(URL + "/2").then().statusCode(204);
+    given().delete(URL + "/" + id).then().statusCode(204);
+  }
+
+  private int getLastTaskId() {
+    Task[] allTasks = given().get(URL).then().statusCode(200).extract().body().as(Task[].class);
+
+    return allTasks[allTasks.length - 1].getId().intValue();
+  }
+
+  private void deleteById(int id) {
+
+    given().delete(URL + "/" + id).then().statusCode(204);
   }
 }

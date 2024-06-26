@@ -44,7 +44,7 @@ public class TaskControllerIntegrationTest {
     LocalDate now = LocalDate.now();
 
     TaskRequest taskRequest = new TaskRequest();
-    taskRequest.setName("taskRequest");
+    taskRequest.setName("Fazer compras");
     taskRequest.setType(TaskType.DATE);
     taskRequest.setPriority(Priority.HIGH);
     taskRequest.setFinalDate(LocalDate.now());
@@ -55,7 +55,7 @@ public class TaskControllerIntegrationTest {
         .get(URL)
         .then()
         .statusCode(200)
-        .body("last().name", equalTo("taskRequest"))
+        .body("last().name", equalTo("Fazer compras"))
         .body("last().type", equalTo("DATE"))
         .body("last().status", equalTo("EXPECTED"))
         .body("last().completed", equalTo(false))
@@ -68,7 +68,7 @@ public class TaskControllerIntegrationTest {
   public void updateTaskWithSuccess() {
     Task taskToUpdate = new Task();
     taskToUpdate.setId(1L);
-    taskToUpdate.setName("Updated Task");
+    taskToUpdate.setName("Passear com o cachorro");
     taskToUpdate.setCompleted(false);
 
     given()
@@ -78,7 +78,7 @@ public class TaskControllerIntegrationTest {
         .then()
         .statusCode(200)
         .body("id", equalTo(1))
-        .body("name", equalTo("Updated Task"));
+        .body("name", equalTo("Passear com o cachorro"));
   }
 
   @Test
@@ -104,7 +104,7 @@ public class TaskControllerIntegrationTest {
   @Test
   public void deleteTaskWithSuccess() {
     TaskRequest taskRequest = new TaskRequest();
-    taskRequest.setName("taskRequest");
+    taskRequest.setName("Dobrar roupa");
     taskRequest.setType(TaskType.FREE);
     taskRequest.setPriority(Priority.LOW);
     taskRequest.setFinalDate(LocalDate.now());

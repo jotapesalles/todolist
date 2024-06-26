@@ -86,6 +86,6 @@ h1 {
     cursor: pointer;
 }
 
-.delete-icon {
+.delete-icon, .edit-icon {
     cursor: pointer;
 }

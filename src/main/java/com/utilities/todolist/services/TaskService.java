@@ -57,14 +57,17 @@ public class TaskService {
       if (taskToUpdateOpt.isPresent()) {
         Task task = taskToUpdateOpt.get();
         task.setCompleted(true);
-        if (task.getType().containsDaysLate()) {
-          LocalDate today = LocalDate.now();
-          if (today.isAfter(task.getFinalDate())) {
-            task.setDaysLate(today.until(task.getFinalDate()).getDays());
-            task.setStatus(Status.DAYS_LATE);
-          } else if (today.isEqual(task.getFinalDate())) {
-            task.setStatus(Status.EXPECTED);
-          } else task.setStatus(Status.CONCLUDED);
+        try {
+          if (task.getType().containsDaysLate()) {
+            LocalDate today = LocalDate.now();
+            if (today.isAfter(task.getFinalDate())) {
+              task.setDaysLate(today.until(task.getFinalDate()).getDays());
+              task.setStatus(Status.DAYS_LATE);
+            } else if (today.isEqual(task.getFinalDate())) {
+              task.setStatus(Status.EXPECTED);
+            } else task.setStatus(Status.CONCLUDED);
+          }
+        } catch (Exception ignored) {
         }
         return ResponseEntity.ok(taskRepository.save(task));
       } else {
